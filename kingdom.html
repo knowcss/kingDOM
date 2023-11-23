@@ -1,0 +1,36 @@
+<html>
+<head>
+	<script>
+		const numb = (max) => Math.floor(Math.random() * max);
+		const begin = () => {
+			var first = new Date().getTime(), start = '', end = '';
+			for (var i=0; i<=10; i++) {
+				start = new Date().getTime();
+				$html('#root',
+				`<main style="border:` + numb(5) + `px solid red; padding:` + numb(5) + `px;" class="main" id="main">
+					<span style="font-size:` + (numb(15)+10) + `px;">begin loading: ` + i + `..</span>
+				</main>`
+				);
+				end = new Date().getTime();
+				console.log(['render[' + i + ']', (end - start) + 'ms']);			
+				$html('#root',
+				`<main style="border:` + numb(5) + `px solid red; padding:` + numb(5) + `px;" class="main" id="main">
+					<span style="font-size:` + (numb(15)+10) + `px;">loaded: ` + i + `</span>
+				</main>`
+				);
+				console.log(['re-render[' + i + ']', (new Date().getTime() - end) + 'ms']);
+			}
+			console.log(['complete 20 renders', (new Date().getTime() - first) + 'ms']);
+		};
+		const ready = (e) => {
+			if (["interactive", "complete"].includes(document.readyState)) { begin(); }
+			else { document.addEventListener('DOMContentLoaded', function () { begin(); }); }
+		};
+	</script>
+	<script src="kingdom.js" onLoad="ready()"></script>
+</head>
+<body>
+	<div style="width:100vw; height:100vh;">
+		<div id="root">loading..</div>
+	</div>
+</body>
